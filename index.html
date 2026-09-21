@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>セイのブルー空間</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0c;--sf:#131318;--cd:#1a1a22;--bd:#252530;--ac:#c8a86e;--tm:#6b6b78;--tx:#e8e4dd;--r:16px}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Noto Serif JP','Hiragino Sans',serif;line-height:1.8;min-height:100vh}
+header{padding:80px 40px 60px;text-align:center;position:relative}
+header::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--ac))}
+.logo{font-size:0.75rem;letter-spacing:0.3em;color:var(--ac);text-transform:uppercase;margin-bottom:24px;font-family:Arial,sans-serif}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:300;letter-spacing:0.15em;margin-bottom:16px;color:var(--tx)}
+.tagline{font-size:0.9rem;color:var(--tm);letter-spacing:0.05em;font-family:Arial,sans-serif;font-weight:300}
+.divider{display:flex;align-items:center;justify-content:center;gap:16px;padding:40px}
+.divider::before,.divider::after{content:'';width:80px;height:1px;background:var(--bd)}
+.divider span{width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.stats{display:flex;justify-content:center;gap:60px;padding:0 40px 60px;flex-wrap:wrap}
+.stat{text-align:center}
+.sv{font-size:1.8rem;font-weight:300;color:var(--ac);letter-spacing:0.05em}
+.sl{font-size:0.7rem;color:var(--tm);letter-spacing:0.15em;text-transform:uppercase;margin-top:4px;font-family:Arial,sans-serif}
+.gallery{max-width:1400px;margin:0 auto;padding:0 40px 100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:48px}
+.c{position:relative;cursor:pointer;animation:fu 0.8s ease forwards;opacity:0}
+.c:nth-child(1){animation-delay:0.1s}.c:nth-child(2){animation-delay:0.2s}.c:nth-child(3){animation-delay:0.3s}
+.c:nth-child(4){animation-delay:0.4s}.c:nth-child(5){animation-delay:0.5s}.c:nth-child(6){animation-delay:0.6s}
+@keyframes fu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.ci{position:relative;overflow:hidden;border-radius:var(--r);background:var(--sf)}
+.ci img{width:100%;height:auto;display:block;transition:transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)}
+.c:hover .ci img{transform:scale(1.05)}
+.co{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,12,0.8) 0%,transparent 50%);opacity:0;transition:opacity 0.4s ease;border-radius:var(--r)}
+.c:hover .co{opacity:1}
+.b{position:absolute;top:16px;right:16px;background:var(--ac);color:var(--bg);font-size:0.65rem;font-weight:500;letter-spacing:0.1em;padding:6px 12px;border-radius:20px;font-family:Arial,sans-serif;text-transform:uppercase}
+.cb{padding:20px 4px 0}
+.ct{font-size:1.2rem;font-weight:400;letter-spacing:0.05em;margin-bottom:8px;color:var(--tx)}
+.cm{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.cs,.cy{font-size:0.8rem;color:var(--tm);font-family:Arial,sans-serif}
+.cp{width:4px;height:4px;border-radius:50%;background:var(--tm)}
+.cp2{font-size:1.1rem;color:var(--ac);font-weight:400;letter-spacing:0.05em;font-family:Arial,sans-serif}
+.cp2 span{font-size:0.75rem;color:var(--tm);margin-left:6px}
+footer{text-align:center;padding:60px 40px;border-top:1px solid var(--bd)}
+footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Arial,sans-serif}
+.lb{position:fixed;inset:0;z-index:1000;background:rgba(8,8,10,0.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s ease;backdrop-filter:blur(20px)}
+.lb.active{opacity:1;pointer-events:all}
+.lb img{max-width:90vw;max-height:88vh;border-radius:4px;box-shadow:0 0 100px rgba(0,0,0,0.8);object-fit:contain}
+.lbc{position:absolute;top:32px;right:40px;width:48px;height:48px;border:1px solid var(--bd);border-radius:50%;background:transparent;color:var(--tx);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
+.lbc:hover{border-color:var(--ac);color:var(--ac)}
+@media(max-width:768px){.gallery{grid-template-columns:1fr;gap:40px;padding:0 24px 60px}header{padding:60px 24px 40px}.stats{gap:40px;padding:0 24px 40px}.divider{padding:30px 24px}}
+</style>
+</head>
+<body>
+
+<header>
+<p class="logo">Artwork Collection</p>
+<h1>セイのブルー空間</h1>
+<p class="tagline">六点のオリジナル作品コレクション</p>
+</header>
+
+<div class="divider"><span></span></div>
+
+<div class="stats">
+<div class="stat"><div class="sv">6</div><div class="sl">作品数</div></div>
+<div class="stat"><div class="sv">3</div><div class="sl">サイズ種類</div></div>
+<div class="stat"><div class="sv">59万</div><div class="sl">総額（円）</div></div>
+<div class="stat"><div class="sv">3</div><div class="sl">額付き</div></div>
+</div>
+
+<div class="gallery">
+
+    <article class="c" onclick="openLb(this)">
+        <div class="ci">
+            <img src="touch that moon_70*109_12万_ケント紙.jpg" alt="Touch That Moon" loading="lazy">
+            <div class="co"></div>
+            <span class="b">ケント紙</span>
+        </div>
+        <div class="cb">
+            <h2 class="ct">Touch That Moon</h2>
+            <div class="cm">
+                <span class="cs">70×109 cm</span>
+                <span class="cp"></span>
+                <span class="cy">縦型・大判</span>
+            </div>
+            <div class="cp2">¥120,000 <span>税別</span></div>
+        </div>
+    </article>
+
+    <article class="c" onclick="openLb(this)">
+        <div class="ci">
+            <img src="共有_79*109_14万＿ケント紙.jpg" alt="共有" loading="lazy">
+            <div class="co"></div>
+            <span class="b">ケント紙</span>
+        </div>
+        <div class="cb">
+            <h2 class="ct">共有</h2>
+            <div class="cm">
+                <span class="cs">79×109 cm</span>
+                <span class="cp"></span>
+                <span class="cy">横型・大判</span>
+            </div>
+            <div class="cp2">¥140,000 <span>税別</span></div>
+        </div>
+    </article>
+
+    <article class="c" onclick="openLb(this)">
+        <div class="ci">
+            <img src="夕陽_25*25_7万_フレーム付き.jpg" alt="夕陽" loading="lazy">
+            <div class="co"></div>
+            <span class="b">額付き</span>
+        </div>
+        <div class="cb">
+            <h2 class="ct">夕陽</h2>
+            <div class="cm">
+                <span class="cs">25×25 cm</span>
+                <span class="cp"></span>
+                <span class="cy">正方形</span>
+            </div>
+            <div class="cp2">¥70,000 <span>税別</span></div>
+        </div>
+    </article>
+
+    <article class="c" onclick="openLb(this)">
+        <div class="ci">
+            <img src="指の間_25*25_1.2万_フレーム付き.jpg" alt="指の間" loading="lazy">
+            <div class="co"></div>
+            <span class="b">額付き</span>
+        </div>
+        <div class="cb">
+            <h2 class="ct">指の間</h2>
+            <div class="cm">
+                <span class="cs">25×25 cm</span>
+                <span class="cp"></span>
+                <span class="cy">正方形</span>
+            </div>
+            <div class="cp2">¥120,000 <span>税別</span></div>
+        </div>
+    </article>
+
+    <article class="c" onclick="openLb(this)">
+        <div class="ci">
+            <img src="涙_55*55_7万.jpg" alt="涙" loading="lazy">
+        </div>
+        <div class="cb">
+            <h2 class="ct">涙</h2>
+            <div class="cm">
+                <span class="cs">55×55 cm</span>
+                <span class="cp"></span>
+                <span class="cy">正方形</span>
+            </div>
+            <div class="cp2">¥70,000 <span>税別</span></div>
+        </div>
+    </article>
+
+    <article class="c" onclick="openLb(this)">
+        <div class="ci">
+            <img src="雲_25*25_7万_フレーム付き.jpg" alt="雲" loading="lazy">
+            <div class="co"></div>
+            <span class="b">額付き</span>
+        </div>
+        <div class="cb">
+            <h2 class="ct">雲</h2>
+            <div class="cm">
+                <span class="cs">25×25 cm</span>
+                <span class="cp"></span>
+                <span class="cy">正方形</span>
+            </div>
+            <div class="cp2">¥70,000 <span>税別</span></div>
+        </div>
+    </article>
+
+</div>
+
+<div class="lb" id="lb" onclick="closeLb()">
+<button class="lbc" onclick="closeLb()" aria-label="閉じる">✕</button>
+<img id="lbi" src="" alt="プレビュー">
+</div>
+
+<footer>
+<p>© 2026 作品コレクション · 本ギャラリーは展示用です</p>
+</footer>
+
+<script>
+function openLb(c){const i=c.querySelector('img'),lb=document.getElementById('lb'),li=document.getElementById('lbi');li.src=i.src;li.alt=i.alt;lb.classList.add('active');document.body.style.overflow='hidden'}
+function closeLb(){const lb=document.getElementById('lb');lb.classList.remove('active');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()})
+</script>
+</body>
+</html>
