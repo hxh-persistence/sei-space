@@ -10,44 +10,24 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --sky-top:#87ceeb;
-  --sky-mid:#b0dff0;
-  --sky-low:#d4eef8;
-  --sea-top:#4a90b8;
-  --sea-mid:#3a7ca8;
-  --sea-deep:#2a5c80;
-  --sand:#e8d5a3;
-  --sand-light:#f0e4bc;
-  --sand-dark:#d4be78;
-  --accent:#3a7cb8;
-  --accent-light:#5a9fd4;
-  --accent-glow:rgba(58,125,184,0.2);
+  --bg:#0a1628;
+  --accent:#5a9fd4;
+  --accent-light:#7abde8;
+  --accent-glow:rgba(90,159,212,0.2);
   --gold:#c9a84c;
-  --gold-dim:rgba(201,168,76,0.6);
-  --text-primary:#2c4a6e;
-  --text-secondary:#5a7a9a;
-  --text-bright:#1a2e45;
-  --card-bg:rgba(255,255,255,0.72);
-  --card-border:rgba(201,168,76,0.35);
-  --shadow:0 4px 30px rgba(44,74,110,0.12),0 1px 4px rgba(44,74,110,0.08);
-  --vignette:radial-gradient(ellipse at center,transparent 50%,rgba(200,220,240,0.3) 100%);
+  --gold-dim:rgba(201,168,76,0.5);
+  --text-primary:#c8d8e8;
+  --text-secondary:#7a9ab5;
+  --text-bright:#e8f0f8;
+  --card-bg:rgba(13,27,42,0.9);
+  --card-border:rgba(201,168,76,0.25);
+  --shadow:0 4px 30px rgba(0,0,0,0.4),0 1px 4px rgba(0,0,0,0.3);
 }
 
 html{scroll-behavior:smooth}
 
 body{
-  background:linear-gradient(
-    to bottom,
-    var(--sky-top) 0%,
-    var(--sky-mid) 35%,
-    var(--sky-low) 55%,
-    var(--sea-top) 55.5%,
-    var(--sea-mid) 62%,
-    var(--sea-deep) 72%,
-    var(--sand-dark) 72.5%,
-    var(--sand) 76%,
-    var(--sand-light) 100%
-  );
+  background:var(--bg);
   color:var(--text-primary);
   font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
   line-height:1.8;
@@ -65,137 +45,6 @@ body::before{
   z-index:9999;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
   opacity:0.5;
-}
-
-/* ═══════════════════════════════════════
-   CLOUDS
-═══════════════════════════════════════ */
-.clouds{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  overflow:hidden;
-}
-
-.cloud{
-  position:absolute;
-  background:rgba(255,255,255,0.85);
-  border-radius:50%;
-  filter:blur(1px);
-}
-
-.cloud::before,.cloud::after{
-  content:'';
-  position:absolute;
-  background:inherit;
-  border-radius:50%;
-}
-
-.cloud-1{
-  width:120px;height:40px;
-  top:6%;left:10%;
-  animation:drift1 35s linear infinite;
-  opacity:0.8;
-}
-.cloud-1::before{width:50px;height:50px;top:-25px;left:18px}
-.cloud-1::after{width:70px;height:55px;top:-28px;left:42px}
-
-.cloud-2{
-  width:160px;height:50px;
-  top:12%;left:55%;
-  animation:drift2 45s linear infinite;
-  opacity:0.7;
-}
-.cloud-2::before{width:65px;height:60px;top:-30px;left:25px}
-.cloud-2::after{width:80px;height:65px;top:-35px;left:55px}
-
-.cloud-3{
-  width:100px;height:35px;
-  top:3%;left:75%;
-  animation:drift3 40s linear infinite;
-  opacity:0.6;
-}
-.cloud-3::before{width:45px;height:45px;top:-22px;left:15px}
-.cloud-3::after{width:55px;height:50px;top:-25px;left:38px}
-
-.cloud-4{
-  width:140px;height:45px;
-  top:18%;left:30%;
-  animation:drift1 50s linear infinite reverse;
-  opacity:0.5;
-}
-.cloud-4::before{width:58px;height:55px;top:-28px;left:22px}
-.cloud-4::after{width:72px;height:60px;top:-32px;left:50px}
-
-@keyframes drift1{
-  from{transform:translateX(0)}
-  to{transform:translateX(120vw)}
-}
-@keyframes drift2{
-  from{transform:translateX(0)}
-  to{transform:translateX(100vw)}
-}
-@keyframes drift3{
-  from{transform:translateX(0)}
-  to{transform:translateX(110vw)}
-}
-
-/* ═══════════════════════════════════════
-   SUN GLOW
-═══════════════════════════════════════ */
-.sun-glow{
-  position:fixed;
-  top:2%;right:12%;
-  width:100px;height:100px;
-  background:radial-gradient(circle,rgba(255,245,200,0.9) 0%,rgba(255,230,150,0.4) 30%,transparent 70%);
-  border-radius:50%;
-  pointer-events:none;
-  z-index:0;
-  animation:sunPulse 6s ease-in-out infinite;
-}
-
-@keyframes sunPulse{
-  0%,100%{transform:scale(1);opacity:0.9}
-  50%{transform:scale(1.08);opacity:1}
-}
-
-/* ═══════════════════════════════════════
-   SEA WAVES
-═══════════════════════════════════════ */
-.waves{
-  position:fixed;
-  bottom:27%;left:0;right:0;
-  height:40px;
-  z-index:0;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.wave{
-  position:absolute;
-  bottom:0;
-  left:-10%;
-  width:120%;
-  height:100%;
-  background:repeating-linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,0.08) 25%,
-    transparent 50%
-  );
-  animation:waveMove 8s linear infinite;
-}
-.wave:nth-child(2){
-  animation-duration:12s;
-  animation-direction:reverse;
-  opacity:0.5;
-  bottom:5px;
-}
-
-@keyframes waveMove{
-  from{transform:translateX(0)}
-  to{transform:translateX(50%)}
 }
 
 /* ═══════════════════════════════════════
@@ -244,7 +93,7 @@ h1{
   font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
   opacity:0;
   animation:fadeUp 1s ease 0.5s forwards;
-  text-shadow:0 1px 8px rgba(255,255,255,0.5),0 0 40px rgba(58,125,184,0.15);
+  text-shadow:0 1px 8px rgba(0,0,0,0.5),0 0 40px rgba(90,159,212,0.2);
 }
 
 .tagline{
@@ -340,10 +189,10 @@ h1{
 .sv{
   font-size:1.4rem;
   font-weight:300;
-  color:var(--accent);
+  color:var(--accent-light);
   letter-spacing:0.08em;
   font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
-  text-shadow:0 1px 6px rgba(255,255,255,0.4);
+  text-shadow:0 0 30px var(--accent-glow);
   vertical-align:baseline;
 }
 
@@ -413,7 +262,7 @@ h1{
 }
 
 .c:hover .ci{
-  box-shadow:0 8px 50px rgba(44,74,110,0.18),0 0 30px var(--accent-glow);
+  box-shadow:0 8px 50px rgba(0,0,0,0.5),0 0 30px var(--accent-glow);
   border-color:rgba(201,168,76,0.55);
 }
 
@@ -447,7 +296,7 @@ h1{
 .co{
   position:absolute;
   inset:0;
-  background:linear-gradient(to top,rgba(255,255,255,0.08) 0%,transparent 50%);
+  background:linear-gradient(to top,rgba(0,0,0,0.15) 0%,transparent 50%);
   opacity:0;
   transition:opacity 0.6s ease;
   border-radius:1px;
@@ -459,8 +308,8 @@ h1{
 .b{
   position:absolute;
   top:14px;right:14px;
-  background:rgba(255,255,255,0.88);
-  color:var(--accent);
+  background:rgba(10,22,40,0.85);
+  color:var(--gold);
   font-size:0.55rem;
   font-weight:400;
   letter-spacing:0.15em;
@@ -473,9 +322,8 @@ h1{
   transition:all 0.4s ease;
 }
 .c:hover .b{
-  background:rgba(255,255,255,0.95);
+  background:rgba(201,168,76,0.15);
   border-color:var(--gold);
-  color:var(--gold);
 }
 
 /* Card info — always at bottom, uniform height */
@@ -483,7 +331,7 @@ h1{
   padding:18px 14px 16px;
   flex:0 0 auto;
   border-top:1px solid rgba(201,168,76,0.2);
-  background:rgba(255,255,255,0.5);
+  background:rgba(10,22,40,0.6);
 }
 
 .ct{
@@ -495,7 +343,7 @@ h1{
   font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
   transition:color 0.4s ease;
 }
-.c:hover .ct{color:var(--accent)}
+.c:hover .ct{color:var(--accent-light)}
 
 .cm{
   display:flex;
@@ -519,7 +367,7 @@ h1{
 
 .cp2{
   font-size:0.95rem;
-  color:var(--accent);
+  color:var(--accent-light);
   font-weight:400;
   letter-spacing:0.06em;
   font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
@@ -530,6 +378,7 @@ h1{
   margin-left:6px;
   font-family:'Syne',Arial,sans-serif;
 }
+
 /* Force uniform card heights via grid */
 .gallery{align-items:stretch}
 @media(max-width:768px){.ci{height:260px}}
@@ -541,7 +390,7 @@ h1{
   position:fixed;
   inset:0;
   z-index:1000;
-  background:rgba(138,185,210,0.88);
+  background:rgba(10,22,40,0.95);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -556,9 +405,9 @@ h1{
   max-width:90vw;
   max-height:88vh;
   border:1px solid var(--card-border);
-  box-shadow:0 16px 80px rgba(44,74,110,0.25),0 0 60px var(--accent-glow);
+  box-shadow:0 16px 80px rgba(0,0,0,0.6),0 0 60px var(--accent-glow);
   object-fit:contain;
-  background:rgba(255,255,255,0.9);
+  background:var(--bg);
   transform:scale(0.92);
   transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
   filter:saturate(0.92) contrast(1.02);
@@ -571,8 +420,8 @@ h1{
   width:48px;height:48px;
   border:1px solid var(--card-border);
   border-radius:50%;
-  background:rgba(255,255,255,0.8);
-  color:var(--accent);
+  background:rgba(10,22,40,0.85);
+  color:var(--gold);
   font-size:1.1rem;
   cursor:pointer;
   display:flex;
@@ -584,7 +433,7 @@ h1{
 }
 .lbc:hover{
   border-color:var(--gold);
-  background:rgba(255,255,255,0.95);
+  background:rgba(201,168,76,0.15);
   color:var(--gold);
   transform:rotate(90deg);
 }
@@ -595,10 +444,9 @@ h1{
 footer{
   text-align:center;
   padding:60px 40px;
-  border-top:1px solid rgba(201,168,76,0.3);
+  border-top:1px solid rgba(201,168,76,0.2);
   position:relative;
   z-index:1;
-  background:linear-gradient(to bottom,transparent,rgba(232,213,163,0.3));
 }
 footer p{
   font-size:0.7rem;
@@ -634,19 +482,6 @@ footer p{
 </style>
 </head>
 <body>
-
-<!-- Sky & sea environment -->
-<div class="clouds">
-  <div class="cloud cloud-1"></div>
-  <div class="cloud cloud-2"></div>
-  <div class="cloud cloud-3"></div>
-  <div class="cloud cloud-4"></div>
-</div>
-<div class="sun-glow"></div>
-<div class="waves">
-  <div class="wave"></div>
-  <div class="wave"></div>
-</div>
 
 <header>
   <p class="logo">Gallery Exhibition</p>
