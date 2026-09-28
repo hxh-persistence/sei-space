@@ -3,73 +3,675 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>セイのブルー空間</title>
+<title>セイのブルー空間 — Gallery</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Syne:wght@400;500&display=swap');
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0a0a0c;--sf:#131318;--cd:#1a1a22;--bd:#252530;--ac:#c8a86e;--tm:#6b6b78;--tx:#e8e4dd;--r:16px}
+
+:root{
+  --sky-top:#87ceeb;
+  --sky-mid:#b0dff0;
+  --sky-low:#d4eef8;
+  --sea-top:#4a90b8;
+  --sea-mid:#3a7ca8;
+  --sea-deep:#2a5c80;
+  --sand:#e8d5a3;
+  --sand-light:#f0e4bc;
+  --sand-dark:#d4be78;
+  --accent:#3a7cb8;
+  --accent-light:#5a9fd4;
+  --accent-glow:rgba(58,125,184,0.2);
+  --gold:#c9a84c;
+  --gold-dim:rgba(201,168,76,0.6);
+  --text-primary:#2c4a6e;
+  --text-secondary:#5a7a9a;
+  --text-bright:#1a2e45;
+  --card-bg:rgba(255,255,255,0.72);
+  --card-border:rgba(201,168,76,0.35);
+  --shadow:0 4px 30px rgba(44,74,110,0.12),0 1px 4px rgba(44,74,110,0.08);
+  --vignette:radial-gradient(ellipse at center,transparent 50%,rgba(200,220,240,0.3) 100%);
+}
+
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--tx);font-family:'Noto Serif JP','Hiragino Sans',serif;line-height:1.8;min-height:100vh}
-header{padding:80px 40px 60px;text-align:center;position:relative}
-header::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--ac))}
-.logo{font-size:0.75rem;letter-spacing:0.3em;color:var(--ac);text-transform:uppercase;margin-bottom:24px;font-family:Arial,sans-serif}
-h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:300;letter-spacing:0.15em;margin-bottom:16px;color:var(--tx)}
-.tagline{font-size:0.9rem;color:var(--tm);letter-spacing:0.05em;font-family:Arial,sans-serif;font-weight:300}
-.divider{display:flex;align-items:center;justify-content:center;gap:16px;padding:40px}
-.divider::before,.divider::after{content:'';width:80px;height:1px;background:var(--bd)}
-.divider span{width:6px;height:6px;border-radius:50%;background:var(--ac)}
-.stats{display:flex;justify-content:center;gap:60px;padding:0 40px 60px;flex-wrap:wrap}
-.stat{text-align:center}
-.sv{font-size:1.8rem;font-weight:300;color:var(--ac);letter-spacing:0.05em}
-.sl{font-size:0.7rem;color:var(--tm);letter-spacing:0.15em;text-transform:uppercase;margin-top:4px;font-family:Arial,sans-serif}
-.gallery{max-width:1400px;margin:0 auto;padding:0 40px 100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:48px}
-.c{position:relative;cursor:pointer;animation:fu 0.8s ease forwards;opacity:0}
-.c:nth-child(1){animation-delay:0.1s}.c:nth-child(2){animation-delay:0.2s}.c:nth-child(3){animation-delay:0.3s}
-.c:nth-child(4){animation-delay:0.4s}.c:nth-child(5){animation-delay:0.5s}.c:nth-child(6){animation-delay:0.6s}
-@keyframes fu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.ci{position:relative;overflow:hidden;border-radius:var(--r);background:var(--sf)}
-.ci img{width:100%;height:auto;display:block;transition:transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)}
-.c:hover .ci img{transform:scale(1.05)}
-.co{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,12,0.8) 0%,transparent 50%);opacity:0;transition:opacity 0.4s ease;border-radius:var(--r)}
+
+body{
+  background:linear-gradient(
+    to bottom,
+    var(--sky-top) 0%,
+    var(--sky-mid) 35%,
+    var(--sky-low) 55%,
+    var(--sea-top) 55.5%,
+    var(--sea-mid) 62%,
+    var(--sea-deep) 72%,
+    var(--sand-dark) 72.5%,
+    var(--sand) 76%,
+    var(--sand-light) 100%
+  );
+  color:var(--text-primary);
+  font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
+  line-height:1.8;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* Film grain overlay — vintage feel */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity:0.5;
+}
+
+/* ═══════════════════════════════════════
+   CLOUDS
+═══════════════════════════════════════ */
+.clouds{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+
+.cloud{
+  position:absolute;
+  background:rgba(255,255,255,0.85);
+  border-radius:50%;
+  filter:blur(1px);
+}
+
+.cloud::before,.cloud::after{
+  content:'';
+  position:absolute;
+  background:inherit;
+  border-radius:50%;
+}
+
+.cloud-1{
+  width:120px;height:40px;
+  top:6%;left:10%;
+  animation:drift1 35s linear infinite;
+  opacity:0.8;
+}
+.cloud-1::before{width:50px;height:50px;top:-25px;left:18px}
+.cloud-1::after{width:70px;height:55px;top:-28px;left:42px}
+
+.cloud-2{
+  width:160px;height:50px;
+  top:12%;left:55%;
+  animation:drift2 45s linear infinite;
+  opacity:0.7;
+}
+.cloud-2::before{width:65px;height:60px;top:-30px;left:25px}
+.cloud-2::after{width:80px;height:65px;top:-35px;left:55px}
+
+.cloud-3{
+  width:100px;height:35px;
+  top:3%;left:75%;
+  animation:drift3 40s linear infinite;
+  opacity:0.6;
+}
+.cloud-3::before{width:45px;height:45px;top:-22px;left:15px}
+.cloud-3::after{width:55px;height:50px;top:-25px;left:38px}
+
+.cloud-4{
+  width:140px;height:45px;
+  top:18%;left:30%;
+  animation:drift1 50s linear infinite reverse;
+  opacity:0.5;
+}
+.cloud-4::before{width:58px;height:55px;top:-28px;left:22px}
+.cloud-4::after{width:72px;height:60px;top:-32px;left:50px}
+
+@keyframes drift1{
+  from{transform:translateX(0)}
+  to{transform:translateX(120vw)}
+}
+@keyframes drift2{
+  from{transform:translateX(0)}
+  to{transform:translateX(100vw)}
+}
+@keyframes drift3{
+  from{transform:translateX(0)}
+  to{transform:translateX(110vw)}
+}
+
+/* ═══════════════════════════════════════
+   SUN GLOW
+═══════════════════════════════════════ */
+.sun-glow{
+  position:fixed;
+  top:2%;right:12%;
+  width:100px;height:100px;
+  background:radial-gradient(circle,rgba(255,245,200,0.9) 0%,rgba(255,230,150,0.4) 30%,transparent 70%);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+  animation:sunPulse 6s ease-in-out infinite;
+}
+
+@keyframes sunPulse{
+  0%,100%{transform:scale(1);opacity:0.9}
+  50%{transform:scale(1.08);opacity:1}
+}
+
+/* ═══════════════════════════════════════
+   SEA WAVES
+═══════════════════════════════════════ */
+.waves{
+  position:fixed;
+  bottom:27%;left:0;right:0;
+  height:40px;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.wave{
+  position:absolute;
+  bottom:0;
+  left:-10%;
+  width:120%;
+  height:100%;
+  background:repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.08) 25%,
+    transparent 50%
+  );
+  animation:waveMove 8s linear infinite;
+}
+.wave:nth-child(2){
+  animation-duration:12s;
+  animation-direction:reverse;
+  opacity:0.5;
+  bottom:5px;
+}
+
+@keyframes waveMove{
+  from{transform:translateX(0)}
+  to{transform:translateX(50%)}
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+header{
+  padding:100px 40px 80px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
+header::before{
+  content:'';
+  position:absolute;
+  top:0;left:50%;
+  transform:translateX(-50%);
+  width:200px;height:2px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+  animation:expandLine 1.5s ease forwards;
+}
+
+@keyframes expandLine{
+  from{width:0;opacity:0}
+  to{width:200px;opacity:1}
+}
+
+.logo{
+  font-size:0.7rem;
+  letter-spacing:0.5em;
+  color:var(--gold-dim);
+  text-transform:uppercase;
+  margin-bottom:32px;
+  font-family:'Syne',Arial,sans-serif;
+  font-weight:400;
+  opacity:0;
+  animation:fadeUp 1s ease 0.3s forwards;
+}
+
+h1{
+  font-size:clamp(2.2rem,5.5vw,3.8rem);
+  font-weight:200;
+  letter-spacing:0.25em;
+  margin-bottom:20px;
+  color:var(--text-bright);
+  font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
+  opacity:0;
+  animation:fadeUp 1s ease 0.5s forwards;
+  text-shadow:0 1px 8px rgba(255,255,255,0.5),0 0 40px rgba(58,125,184,0.15);
+}
+
+.tagline{
+  font-size:0.9rem;
+  color:var(--text-secondary);
+  letter-spacing:0.15em;
+  font-family:'Syne',Arial,sans-serif;
+  font-weight:400;
+  opacity:0;
+  animation:fadeUp 1s ease 0.7s forwards;
+  font-style:italic;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════ */
+.divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  padding:48px 40px;
+  position:relative;
+  z-index:1;
+}
+
+.divider::before,.divider::after{
+  content:'';
+  width:clamp(80px,20vw,160px);
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--gold-dim));
+  animation:lineGrow 1.2s ease forwards;
+  transform-origin:left;
+}
+.divider::after{
+  background:linear-gradient(to left,transparent,var(--gold-dim));
+  transform-origin:right;
+}
+
+@keyframes lineGrow{
+  from{opacity:0;transform:scaleX(0)}
+  to{opacity:1;transform:scaleX(1)}
+}
+
+.divider-ornament{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  opacity:0;
+  animation:fadeIn 1s ease 1s forwards;
+}
+
+@keyframes fadeIn{to{opacity:1}}
+
+.divider-ornament .diamond{
+  width:6px;height:6px;
+  background:var(--gold);
+  transform:rotate(45deg);
+  opacity:0.7;
+}
+.divider-ornament .dot{
+  width:3px;height:3px;
+  border-radius:50%;
+  background:var(--accent);
+  opacity:0.6;
+}
+
+/* ═══════════════════════════════════════
+   STATS
+═══════════════════════════════════════ */
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:80px;
+  padding:0 40px 80px;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:1;
+}
+
+.stat{text-align:center;opacity:0;animation:fadeUp 0.8s ease forwards}
+.stat:nth-child(1){animation-delay:1.1s}
+.stat:nth-child(2){animation-delay:1.25s}
+.stat:nth-child(3){animation-delay:1.4s}
+.stat:nth-child(4){animation-delay:1.55s}
+
+.sv{
+  font-size:1.4rem;
+  font-weight:300;
+  color:var(--accent);
+  letter-spacing:0.08em;
+  font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
+  text-shadow:0 1px 6px rgba(255,255,255,0.4);
+  vertical-align:baseline;
+}
+
+.sl{
+  font-size:0.7rem;
+  color:var(--text-secondary);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-top:8px;
+  font-family:'Syne',Arial,sans-serif;
+  border-top:1px solid rgba(201,168,76,0.35);
+  padding-top:8px;
+  display:inline-block;
+}
+
+/* ═══════════════════════════════════════
+   GALLERY
+═══════════════════════════════════════ */
+.gallery{
+  max-width:1400px;
+  margin:0 auto;
+  padding:0 48px 140px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+  gap:56px;
+  position:relative;
+  z-index:1;
+}
+
+.c{
+  position:relative;
+  cursor:pointer;
+  opacity:0;
+  animation:cardReveal 1s ease forwards;
+  transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+}
+
+.c:hover{transform:translateY(-8px)}
+
+.c:nth-child(1){animation-delay:1.3s}
+.c:nth-child(2){animation-delay:1.45s}
+.c:nth-child(3){animation-delay:1.6s}
+.c:nth-child(4){animation-delay:1.75s}
+.c:nth-child(5){animation-delay:1.9s}
+.c:nth-child(6){animation-delay:2.05s}
+
+@keyframes cardReveal{
+  from{opacity:0;transform:translateY(60px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Card — vintage photo mat style */
+.ci{
+  position:relative;
+  overflow:hidden;
+  border-radius:3px;
+  background:var(--card-bg);
+  box-shadow:var(--shadow);
+  border:1px solid var(--card-border);
+  transition:box-shadow 0.6s ease;
+  backdrop-filter:blur(12px);
+  flex:1 0 auto;
+  height:320px;
+}
+
+.c:hover .ci{
+  box-shadow:0 8px 50px rgba(44,74,110,0.18),0 0 30px var(--accent-glow);
+  border-color:rgba(201,168,76,0.55);
+}
+
+/* Inner mat border */
+.ci::before{
+  content:'';
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(201,168,76,0.15);
+  pointer-events:none;
+  z-index:2;
+  transition:border-color 0.5s ease;
+}
+.c:hover .ci::before{border-color:rgba(201,168,76,0.35)}
+
+.ci img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94),filter 0.8s ease;
+  filter:saturate(0.9) brightness(0.98) contrast(1.02);
+}
+
+.c:hover .ci img{
+  transform:scale(1.05);
+  filter:saturate(1) brightness(1) contrast(1.04);
+}
+
+/* Hover overlay */
+.co{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(255,255,255,0.08) 0%,transparent 50%);
+  opacity:0;
+  transition:opacity 0.6s ease;
+  border-radius:1px;
+  z-index:1;
+}
 .c:hover .co{opacity:1}
-.b{position:absolute;top:16px;right:16px;background:var(--ac);color:var(--bg);font-size:0.65rem;font-weight:500;letter-spacing:0.1em;padding:6px 12px;border-radius:20px;font-family:Arial,sans-serif;text-transform:uppercase}
-.cb{padding:20px 4px 0}
-.ct{font-size:1.2rem;font-weight:400;letter-spacing:0.05em;margin-bottom:8px;color:var(--tx)}
-.cm{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.cs,.cy{font-size:0.8rem;color:var(--tm);font-family:Arial,sans-serif}
-.cp{width:4px;height:4px;border-radius:50%;background:var(--tm)}
-.cp2{font-size:1.1rem;color:var(--ac);font-weight:400;letter-spacing:0.05em;font-family:Arial,sans-serif}
-.cp2 span{font-size:0.75rem;color:var(--tm);margin-left:6px}
-footer{text-align:center;padding:60px 40px;border-top:1px solid var(--bd)}
-footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Arial,sans-serif}
-.lb{position:fixed;inset:0;z-index:1000;background:rgba(8,8,10,0.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s ease;backdrop-filter:blur(20px)}
+
+/* Badge */
+.b{
+  position:absolute;
+  top:14px;right:14px;
+  background:rgba(255,255,255,0.88);
+  color:var(--accent);
+  font-size:0.55rem;
+  font-weight:400;
+  letter-spacing:0.15em;
+  padding:5px 10px;
+  font-family:'Syne',Arial,sans-serif;
+  text-transform:uppercase;
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(201,168,76,0.35);
+  z-index:3;
+  transition:all 0.4s ease;
+}
+.c:hover .b{
+  background:rgba(255,255,255,0.95);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* Card info — always at bottom, uniform height */
+.cb{
+  padding:18px 14px 16px;
+  flex:0 0 auto;
+  border-top:1px solid rgba(201,168,76,0.2);
+  background:rgba(255,255,255,0.5);
+}
+
+.ct{
+  font-size:1rem;
+  font-weight:400;
+  letter-spacing:0.12em;
+  margin-bottom:12px;
+  color:var(--text-bright);
+  font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
+  transition:color 0.4s ease;
+}
+.c:hover .ct{color:var(--accent)}
+
+.cm{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.cs,.cy{
+  font-size:0.75rem;
+  color:var(--text-secondary);
+  font-family:'Syne',Arial,sans-serif;
+  letter-spacing:0.06em;
+}
+
+.cp{
+  width:3px;height:3px;
+  border-radius:50%;
+  background:var(--gold-dim);
+}
+
+.cp2{
+  font-size:0.95rem;
+  color:var(--accent);
+  font-weight:400;
+  letter-spacing:0.06em;
+  font-family:'Noto Serif JP','Cormorant Garamond',Georgia,serif;
+}
+.cp2 span{
+  font-size:0.7rem;
+  color:var(--text-secondary);
+  margin-left:6px;
+  font-family:'Syne',Arial,sans-serif;
+}
+/* Force uniform card heights via grid */
+.gallery{align-items:stretch}
+@media(max-width:768px){.ci{height:260px}}
+
+/* ═══════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════ */
+.lb{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(138,185,210,0.88);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.5s ease;
+  backdrop-filter:blur(20px);
+}
 .lb.active{opacity:1;pointer-events:all}
-.paper{top:56px}
-.lb img{max-width:90vw;max-height:88vh;border-radius:4px;box-shadow:0 0 100px rgba(0,0,0,0.8);object-fit:contain}
-.lbc{position:absolute;top:32px;right:40px;width:48px;height:48px;border:1px solid var(--bd);border-radius:50%;background:transparent;color:var(--tx);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
-.lbc:hover{border-color:var(--ac);color:var(--ac)}
-@media(max-width:768px){.gallery{grid-template-columns:1fr;gap:40px;padding:0 24px 60px}header{padding:60px 24px 40px}.stats{gap:40px;padding:0 24px 40px}.divider{padding:30px 24px}}
+
+.lb img{
+  max-width:90vw;
+  max-height:88vh;
+  border:1px solid var(--card-border);
+  box-shadow:0 16px 80px rgba(44,74,110,0.25),0 0 60px var(--accent-glow);
+  object-fit:contain;
+  background:rgba(255,255,255,0.9);
+  transform:scale(0.92);
+  transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  filter:saturate(0.92) contrast(1.02);
+}
+.lb.active img{transform:scale(1);opacity:1}
+
+.lbc{
+  position:absolute;
+  top:32px;right:40px;
+  width:48px;height:48px;
+  border:1px solid var(--card-border);
+  border-radius:50%;
+  background:rgba(255,255,255,0.8);
+  color:var(--accent);
+  font-size:1.1rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.4s ease;
+  backdrop-filter:blur(12px);
+  font-family:'Syne',sans-serif;
+}
+.lbc:hover{
+  border-color:var(--gold);
+  background:rgba(255,255,255,0.95);
+  color:var(--gold);
+  transform:rotate(90deg);
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer{
+  text-align:center;
+  padding:60px 40px;
+  border-top:1px solid rgba(201,168,76,0.3);
+  position:relative;
+  z-index:1;
+  background:linear-gradient(to bottom,transparent,rgba(232,213,163,0.3));
+}
+footer p{
+  font-size:0.7rem;
+  color:var(--text-secondary);
+  letter-spacing:0.2em;
+  font-family:'Syne',Arial,sans-serif;
+  text-transform:uppercase;
+}
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:768px){
+  .gallery{grid-template-columns:1fr;gap:40px;padding:0 24px 80px}
+  header{padding:60px 24px 48px}
+  .stats{gap:32px;padding:0 24px 48px}
+  .divider{padding:32px 24px}
+  .lbc{top:20px;right:20px}
+}
 </style>
 </head>
 <body>
 
+<!-- Sky & sea environment -->
+<div class="clouds">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+  <div class="cloud cloud-4"></div>
+</div>
+<div class="sun-glow"></div>
+<div class="waves">
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+
 <header>
-<p class="logo">Artwork Collection</p>
-<h1>セイのブルー空間</h1>
-<p class="tagline">六点のオリジナル作品コレクション</p>
+  <p class="logo">Gallery Exhibition</p>
+  <h1>セイのブルー空間</h1>
+  <p class="tagline">Six Original Works · A Collection of Quiet Moments</p>
 </header>
 
-<div class="divider"><span></span></div>
+<div class="divider">
+  <div class="divider-ornament">
+    <div class="diamond"></div>
+    <div class="dot"></div>
+    <div class="diamond"></div>
+  </div>
+</div>
 
 <div class="stats">
-<div class="stat"><div class="sv">6</div><div class="sl">作品数</div></div>
-<div class="stat"><div class="sv">3</div><div class="sl">サイズ種類</div></div>
-<div class="stat"><div class="sv">59万</div><div class="sl">総額（円）</div></div>
-<div class="stat"><div class="sv">3</div><div class="sl">額付き</div></div>
+  <div class="stat"><div class="sv">6</div><div class="sl">作品数</div></div>
+  <div class="stat"><div class="sv">3</div><div class="sl">サイズ種類</div></div>
+  <div class="stat"><div class="sv">59万</div><div class="sl">総額（円）</div></div>
+  <div class="stat"><div class="sv">3</div><div class="sl">額付き</div></div>
 </div>
 
 <div class="gallery">
 
-    <article class="c" onclick="openLb(this)">
+    <article class="c reveal" onclick="openLb(this)">
         <div class="ci">
             <img src="touch that moon.jpg" alt="Touch That Moon" loading="lazy">
             <div class="co"></div>
@@ -86,12 +688,12 @@ footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Aria
         </div>
     </article>
 
-    <article class="c" onclick="openLb(this)">
+    <article class="c reveal" onclick="openLb(this)">
         <div class="ci">
             <img src="共有.jpg" alt="共有" loading="lazy">
             <div class="co"></div>
             <span class="b">販売済み</span>
-            <span class="b paper">ケント紙</span>
+            <span class="b">ケント紙</span>
         </div>
         <div class="cb">
             <h2 class="ct">共有</h2>
@@ -104,7 +706,7 @@ footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Aria
         </div>
     </article>
 
-    <article class="c" onclick="openLb(this)">
+    <article class="c reveal" onclick="openLb(this)">
         <div class="ci">
             <img src="夕陽.jpg" alt="夕陽" loading="lazy">
             <div class="co"></div>
@@ -121,7 +723,7 @@ footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Aria
         </div>
     </article>
 
-    <article class="c" onclick="openLb(this)">
+    <article class="c reveal" onclick="openLb(this)">
         <div class="ci">
             <img src="指の間.jpg" alt="指の間" loading="lazy">
             <div class="co"></div>
@@ -138,9 +740,11 @@ footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Aria
         </div>
     </article>
 
-    <article class="c" onclick="openLb(this)">
+    <article class="c reveal" onclick="openLb(this)">
         <div class="ci">
             <img src="涙.jpg" alt="涙" loading="lazy">
+            <div class="co"></div>
+            <span class="b">額付き</span>
         </div>
         <div class="cb">
             <h2 class="ct">涙</h2>
@@ -153,7 +757,7 @@ footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Aria
         </div>
     </article>
 
-    <article class="c" onclick="openLb(this)">
+    <article class="c reveal" onclick="openLb(this)">
         <div class="ci">
             <img src="雲.jpg" alt="雲" loading="lazy">
             <div class="co"></div>
@@ -178,13 +782,28 @@ footer p{font-size:0.75rem;color:var(--tm);letter-spacing:0.1em;font-family:Aria
 </div>
 
 <footer>
-<p>© 2026 作品コレクション · 本ギャラリーは展示用です</p>
+<p>© 2026 Sei no Blue Space · Gallery Exhibition</p>
 </footer>
 
 <script>
-function openLb(c){const i=c.querySelector('img'),lb=document.getElementById('lb'),li=document.getElementById('lbi');li.src=i.src;li.alt=i.alt;lb.classList.add('active');document.body.style.overflow='hidden'}
-function closeLb(){const lb=document.getElementById('lb');lb.classList.remove('active');document.body.style.overflow=''}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()})
+function openLb(c){
+  const i=c.querySelector('img'),lb=document.getElementById('lb'),li=document.getElementById('lbi');
+  li.src=i.src;li.alt=i.alt;
+  lb.classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){
+  const lb=document.getElementById('lb');
+  lb.classList.remove('active');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()});
+
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
